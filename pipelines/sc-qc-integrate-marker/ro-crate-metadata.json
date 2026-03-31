@@ -1,0 +1,163 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "SoftwareSourceCode",
+        "ComputationalWorkflow"
+      ],
+      "creator": [
+        {
+          "@id": "#author"
+        }
+      ],
+      "dateCreated": "2025-03-31",
+      "description": "Hybrid single-cell RNA-seq analysis pipeline combining Scanpy for QC/normalization, nf-core/scdownstream for integration/clustering, and custom Scanpy scripts for automatic marker gene detection and visualization. Processes h5ad input through quality control, normalization, dimensionality reduction, clustering, and produces marker gene tables with UMAP, heatmap, and dotplot visualizations.",
+      "input": [
+        {
+          "@id": "#input-h5ad"
+        }
+      ],
+      "isBasedOn": {
+        "@id": "https://github.com/nf-core/scdownstream"
+      },
+      "keywords": [
+        "single-cell",
+        "scRNA-seq",
+        "QC",
+        "normalization",
+        "clustering",
+        "marker-genes",
+        "scanpy",
+        "nf-core",
+        "integration",
+        "UMAP",
+        "visualization"
+      ],
+      "license": {
+        "@id": "https://spdx.org/licenses/MIT"
+      },
+      "name": "sc-qc-integrate-marker",
+      "output": [
+        {
+          "@id": "#output-h5ad"
+        },
+        {
+          "@id": "#output-markers-csv"
+        },
+        {
+          "@id": "#output-umap-png"
+        },
+        {
+          "@id": "#output-heatmap-png"
+        },
+        {
+          "@id": "#output-dotplot-png"
+        }
+      ],
+      "programmingLanguage": [
+        {
+          "@id": "#snakemake"
+        },
+        {
+          "@id": "#nextflow"
+        }
+      ],
+      "sdPublisher": {
+        "@id": "https://hub.autopipe.org"
+      },
+      "softwareRequirements": [
+        {
+          "@id": "#scanpy"
+        },
+        {
+          "@id": "#scdownstream"
+        }
+      ],
+      "version": "1.0.0"
+    },
+    {
+      "@id": "#author",
+      "@type": "Person",
+      "name": "PNU COLab"
+    },
+    {
+      "@id": "#snakemake",
+      "@type": "ComputerLanguage",
+      "name": "Snakemake",
+      "url": "https://snakemake.readthedocs.io"
+    },
+    {
+      "@id": "#nextflow",
+      "@type": "ComputerLanguage",
+      "name": "Nextflow",
+      "url": "https://nextflow.io"
+    },
+    {
+      "@id": "#scanpy",
+      "@type": "SoftwareApplication",
+      "name": "Scanpy",
+      "url": "https://scanpy.readthedocs.io"
+    },
+    {
+      "@id": "#scdownstream",
+      "@type": "SoftwareApplication",
+      "name": "nf-core/scdownstream",
+      "url": "https://nf-co.re/scdownstream"
+    },
+    {
+      "@id": "#input-h5ad",
+      "@type": "FormalParameter",
+      "description": "Raw single-cell count matrix in h5ad format",
+      "encodingFormat": "application/x-hdf5",
+      "name": "h5ad"
+    },
+    {
+      "@id": "#output-h5ad",
+      "@type": "FormalParameter",
+      "description": "Final annotated h5ad with QC, clustering, and marker information",
+      "encodingFormat": "application/x-hdf5",
+      "name": "annotated.h5ad"
+    },
+    {
+      "@id": "#output-markers-csv",
+      "@type": "FormalParameter",
+      "description": "Marker genes per cluster with statistics",
+      "encodingFormat": "text/csv",
+      "name": "cluster_markers.csv"
+    },
+    {
+      "@id": "#output-umap-png",
+      "@type": "FormalParameter",
+      "description": "UMAP visualization colored by cluster",
+      "encodingFormat": "image/png",
+      "name": "umap_clusters.png"
+    },
+    {
+      "@id": "#output-heatmap-png",
+      "@type": "FormalParameter",
+      "description": "Heatmap of top marker genes per cluster",
+      "encodingFormat": "image/png",
+      "name": "top_markers_heatmap.png"
+    },
+    {
+      "@id": "#output-dotplot-png",
+      "@type": "FormalParameter",
+      "description": "Dotplot of top marker genes per cluster",
+      "encodingFormat": "image/png",
+      "name": "top_markers_dotplot.png"
+    }
+  ]
+}

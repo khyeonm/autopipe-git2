@@ -1,0 +1,25 @@
+# ==============================================================================
+# sc-qc-integrate-marker Pipeline Configuration (Clustering + Marker)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Input (QC-normalized h5ad from Step 1)
+# ------------------------------------------------------------------------------
+input_h5ad: "/input/qc_normalized.h5ad"
+
+# ------------------------------------------------------------------------------
+# Clustering Parameters (Scanpy)
+# ------------------------------------------------------------------------------
+n_pcs: 50             # Number of PCA components
+n_neighbors: 15       # Number of neighbors for graph
+resolution: 1.0       # Leiden clustering resolution
+
+# ------------------------------------------------------------------------------
+# Marker Analysis Parameters
+# ------------------------------------------------------------------------------
+cluster_key: "leiden"
+n_marker_genes: 25    # Number of marker genes per cluster
+marker_method: "wilcoxon"  # Options: wilcoxon, t-test, logreg
+
+# Visualization
+n_plot_genes: 5       # Top genes to show in heatmap/dotplot

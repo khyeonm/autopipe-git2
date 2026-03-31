@@ -1,0 +1,4 @@
+[
+  {"type": "nextflow", "pipeline": "nf-core/scdownstream", "config": "nextflow.config"},
+  {"type": "snakemake", "snakefile": "Snakefile.marker", "dockerfile": "Dockerfile.marker"}
+]

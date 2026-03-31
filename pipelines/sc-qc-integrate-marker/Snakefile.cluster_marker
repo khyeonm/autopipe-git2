@@ -1,0 +1,83 @@
+configfile: "config.yaml"
+
+rule all:
+    input:
+        "/output/clustered.h5ad",
+        "/output/marker_analysis/cluster_markers.csv",
+        "/output/marker_analysis/umap_clusters.png",
+        "/output/marker_analysis/top_markers_heatmap.png",
+        "/output/marker_analysis/top_markers_dotplot.png"
+
+rule cluster:
+    """PCA, UMAP, and Leiden clustering using Scanpy."""
+    input:
+        h5ad=config["input_h5ad"]
+    output:
+        "/output/clustered.h5ad"
+    params:
+        n_pcs=config.get("n_pcs", 50),
+        n_neighbors=config.get("n_neighbors", 15),
+        resolution=config.get("resolution", 1.0)
+    log:
+        "/output/logs/cluster.log"
+    script:
+        "scripts/cluster.py"
+
+rule find_markers:
+    """Automatic marker gene detection per cluster."""
+    input:
+        h5ad=rules.cluster.output
+    output:
+        markers="/output/marker_analysis/cluster_markers.csv",
+        h5ad="/output/marker_analysis/annotated.h5ad"
+    params:
+        n_genes=config.get("n_marker_genes", 25),
+        method=config.get("marker_method", "wilcoxon"),
+        cluster_key=config.get("cluster_key", "leiden")
+    log:
+        "/output/logs/find_markers.log"
+    script:
+        "scripts/find_markers.py"
+
+rule plot_umap:
+    """UMAP visualization with cluster annotations."""
+    input:
+        h5ad=rules.find_markers.output.h5ad
+    output:
+        umap="/output/marker_analysis/umap_clusters.png"
+    params:
+        cluster_key=config.get("cluster_key", "leiden")
+    log:
+        "/output/logs/plot_umap.log"
+    script:
+        "scripts/plot_umap.py"
+
+rule plot_heatmap:
+    """Top marker genes heatmap."""
+    input:
+        h5ad=rules.find_markers.output.h5ad,
+        markers=rules.find_markers.output.markers
+    output:
+        heatmap="/output/marker_analysis/top_markers_heatmap.png"
+    params:
+        n_genes=config.get("n_plot_genes", 5),
+        cluster_key=config.get("cluster_key", "leiden")
+    log:
+        "/output/logs/plot_heatmap.log"
+    script:
+        "scripts/plot_heatmap.py"
+
+rule plot_dotplot:
+    """Marker genes dotplot."""
+    input:
+        h5ad=rules.find_markers.output.h5ad,
+        markers=rules.find_markers.output.markers
+    output:
+        dotplot="/output/marker_analysis/top_markers_dotplot.png"
+    params:
+        n_genes=config.get("n_plot_genes", 5),
+        cluster_key=config.get("cluster_key", "leiden")
+    log:
+        "/output/logs/plot_dotplot.log"
+    script:
+        "scripts/plot_dotplot.py"
